@@ -1,3 +1,4 @@
+
 organization in ThisBuild := "com.getvisibility"
 version in ThisBuild := "1.0-SNAPSHOT"
 
@@ -29,6 +30,15 @@ lazy val `hello-lagom-nomad-impl` = (project in file("hello-lagom-nomad-impl"))
     )
   )
   .settings(lagomForkedTestSettings: _*)
+  .settings(mainClass in assembly := Some("play.core.server.ProdServerStart"))
+  .settings(assemblyMergeStrategy in assembly := {
+    case PathList(ps@_*) if ps.last endsWith ".class" => MergeStrategy.first
+    case PathList(ps@_*) if ps.last == "reference-overrides.conf" => MergeStrategy.concat
+    case PathList(ps@_*) if ps.last == "io.netty.versions.properties" => MergeStrategy.concat
+    case x =>
+      val oldStrategy = (assemblyMergeStrategy in assembly).value
+      oldStrategy(x)
+  })
   .dependsOn(`hello-lagom-nomad-api`)
 
 lazy val `hello-lagom-nomad-stream-api` = (project in file("hello-lagom-nomad-stream-api"))
