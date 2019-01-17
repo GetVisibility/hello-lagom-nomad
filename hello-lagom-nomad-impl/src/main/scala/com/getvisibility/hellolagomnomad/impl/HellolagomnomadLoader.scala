@@ -8,14 +8,13 @@ import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
 import play.api.libs.ws.ahc.AhcWSComponents
 import com.getvisibility.hellolagomnomad.api.HellolagomnomadService
 import com.lightbend.lagom.scaladsl.broker.kafka.LagomKafkaComponents
+import com.lightbend.lagom.scaladsl.discovery.consul.ConsulServiceLocatorComponents
 import com.softwaremill.macwire._
 
 class HellolagomnomadLoader extends LagomApplicationLoader {
 
   override def load(context: LagomApplicationContext): LagomApplication =
-    new HellolagomnomadApplication(context) {
-      override def serviceLocator: ServiceLocator = NoServiceLocator
-    }
+    new HellolagomnomadApplication(context) with ConsulServiceLocatorComponents {}
 
   override def loadDevMode(context: LagomApplicationContext): LagomApplication =
     new HellolagomnomadApplication(context) with LagomDevModeComponents

@@ -8,6 +8,9 @@ scalaVersion in ThisBuild := "2.12.4"
 val macwire = "com.softwaremill.macwire" %% "macros" % "2.3.0" % "provided"
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.4" % Test
 
+// This project needs to be build and added to the ivy cache from https://github.com/jboner/lagom-service-locator-consul
+val serviceLocatorForConsul = "com.lightbend.lagom" %% "lagom-service-locator-scaladsl-consul" % "1.4.0-SNAPSHOT"
+
 lazy val `hello-lagom-nomad` = (project in file("."))
   .aggregate(`hello-lagom-nomad-api`, `hello-lagom-nomad-impl`, `hello-lagom-nomad-stream-api`, `hello-lagom-nomad-stream-impl`)
 
@@ -26,7 +29,8 @@ lazy val `hello-lagom-nomad-impl` = (project in file("hello-lagom-nomad-impl"))
       lagomScaladslKafkaBroker,
       lagomScaladslTestKit,
       macwire,
-      scalaTest
+      scalaTest,
+      serviceLocatorForConsul
     )
   )
   .settings(lagomForkedTestSettings: _*)
