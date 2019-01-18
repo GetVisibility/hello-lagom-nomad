@@ -12,7 +12,7 @@ val scalaTest = "org.scalatest" %% "scalatest" % "3.0.4" % Test
 val serviceLocatorForConsul = "com.lightbend.lagom" %% "lagom-service-locator-scaladsl-consul" % "1.4.0-SNAPSHOT"
 
 lazy val `hello-lagom-nomad` = (project in file("."))
-  .aggregate(`hello-lagom-nomad-api`, `hello-lagom-nomad-impl`, `hello-lagom-nomad-stream-api`, `hello-lagom-nomad-stream-impl`)
+  .aggregate(`hello-lagom-nomad-api`, `hello-lagom-nomad-impl`)
 
 lazy val `hello-lagom-nomad-api` = (project in file("hello-lagom-nomad-api"))
   .settings(
@@ -44,21 +44,3 @@ lazy val `hello-lagom-nomad-impl` = (project in file("hello-lagom-nomad-impl"))
       oldStrategy(x)
   })
   .dependsOn(`hello-lagom-nomad-api`)
-
-lazy val `hello-lagom-nomad-stream-api` = (project in file("hello-lagom-nomad-stream-api"))
-  .settings(
-    libraryDependencies ++= Seq(
-      lagomScaladslApi
-    )
-  )
-
-lazy val `hello-lagom-nomad-stream-impl` = (project in file("hello-lagom-nomad-stream-impl"))
-  .enablePlugins(LagomScala)
-  .settings(
-    libraryDependencies ++= Seq(
-      lagomScaladslTestKit,
-      macwire,
-      scalaTest
-    )
-  )
-  .dependsOn(`hello-lagom-nomad-stream-api`, `hello-lagom-nomad-api`)
