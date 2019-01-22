@@ -1,20 +1,23 @@
 package com.getvisibility.hellolagomnomad.impl
 
-import com.lightbend.lagom.scaladsl.api.ServiceLocator
-import com.lightbend.lagom.scaladsl.api.ServiceLocator.NoServiceLocator
-import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraPersistenceComponents
-import com.lightbend.lagom.scaladsl.server._
-import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
-import play.api.libs.ws.ahc.AhcWSComponents
+import akka.management.AkkaManagement
+import akka.management.cluster.bootstrap.ClusterBootstrap
 import com.getvisibility.hellolagomnomad.api.HellolagomnomadService
 import com.lightbend.lagom.scaladsl.broker.kafka.LagomKafkaComponents
+import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
 import com.lightbend.lagom.scaladsl.discovery.consul.ConsulServiceLocatorComponents
+import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraPersistenceComponents
+import com.lightbend.lagom.scaladsl.server._
 import com.softwaremill.macwire._
+import play.api.libs.ws.ahc.AhcWSComponents
 
 class HellolagomnomadLoader extends LagomApplicationLoader {
 
   override def load(context: LagomApplicationContext): LagomApplication =
-    new HellolagomnomadApplication(context) with ConsulServiceLocatorComponents {}
+    new HellolagomnomadApplication(context) with ConsulServiceLocatorComponents {
+      AkkaManagement(actorSystem).start()
+      ClusterBootstrap(actorSystem).start()
+    }
 
   override def loadDevMode(context: LagomApplicationContext): LagomApplication =
     new HellolagomnomadApplication(context) with LagomDevModeComponents

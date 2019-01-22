@@ -1,7 +1,7 @@
 package com.getvisibility.hellolagomnomad.impl
 
 import com.getvisibility.hellolagomnomad.api
-import com.getvisibility.hellolagomnomad.api.{HellolagomnomadService}
+import com.getvisibility.hellolagomnomad.api.HellolagomnomadService
 import com.lightbend.lagom.scaladsl.api.ServiceCall
 import com.lightbend.lagom.scaladsl.api.broker.Topic
 import com.lightbend.lagom.scaladsl.broker.TopicProducer

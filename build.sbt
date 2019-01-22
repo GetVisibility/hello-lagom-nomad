@@ -11,6 +11,12 @@ val scalaTest = "org.scalatest" %% "scalatest" % "3.0.4" % Test
 // This project needs to be build and added to the ivy cache from https://github.com/jboner/lagom-service-locator-consul
 val serviceLocatorForConsul = "com.lightbend.lagom" %% "lagom-service-locator-scaladsl-consul" % "1.4.0-SNAPSHOT"
 
+// Allow akka cluster discovery/joining through consul
+val akkaClusterBootstrap = Seq(
+  "com.lightbend.akka.management" %% "akka-management-cluster-bootstrap" % "0.20.0",
+  "com.lightbend.akka.discovery" %% "akka-discovery-consul" % "0.20.0"
+)
+
 lazy val `hello-lagom-nomad` = (project in file("."))
   .aggregate(`hello-lagom-nomad-api`, `hello-lagom-nomad-impl`)
 
@@ -31,7 +37,7 @@ lazy val `hello-lagom-nomad-impl` = (project in file("hello-lagom-nomad-impl"))
       macwire,
       scalaTest,
       serviceLocatorForConsul
-    )
+    ) ++ akkaClusterBootstrap
   )
   .settings(lagomForkedTestSettings: _*)
   .settings(mainClass in assembly := Some("play.core.server.ProdServerStart"))
