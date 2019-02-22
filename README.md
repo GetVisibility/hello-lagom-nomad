@@ -51,10 +51,10 @@ We will be using an open source implementation of the Consul service locator for
     * You should see the self node and seed notes (with a single entity) reflecting the akka_remote url (from above).
     ```
     {
-        "selfNode": "akka.tcp://hellolagomnomad@127.0.0.1:31589",
+        "selfNode": "akka.tcp://hellolagomnomad@<AKKA-REMOTE-URL>",
         "seedNodes": [
             {
-                "node": "akka.tcp://hellolagomnomad@127.0.0.1:31589",
+                "node": "akka.tcp://hellolagomnomad@<AKKA-REMOTE-URL>",
                 "nodeUid": 1676770080,
                 "status": "Up",
                 "roles": [
